@@ -16,7 +16,7 @@ public:
 	Socket(Socket&& obj);
 	bool Send(const char* buff, size_t size);
 	bool Recv(char* buff, size_t size);
-	bool Bind(const char* ip, int port);
+	bool Bind(const char* ip, u_short port);
 	bool Accept();
 	Socket MakeAccept();
 	bool Connect(const char* ip, int port);

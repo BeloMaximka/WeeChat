@@ -49,7 +49,7 @@ bool Socket::Recv(char* buff, size_t size)
 	return true;
 }
 
-bool Socket::Bind(const char* ip, int port)
+bool Socket::Bind(const char* ip, u_short port)
 {
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
