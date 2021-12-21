@@ -32,10 +32,10 @@ void Server::ListenConnetions()
 
 void Server::ProcessConnection(Socket _socket)
 {
-	char buff[Socket::RECV_BUFFER];
-	while (threads_run && _socket.Recv(buff))
+	std::wstring message;
+	while (threads_run && _socket.Recv(message))
 	{
-		_socket.Send(buff, Socket::RECV_BUFFER);
+		_socket.Send(message.c_str());
 	}
 	map_mutex.lock();
 	auto id = std::this_thread::get_id();

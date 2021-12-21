@@ -38,9 +38,19 @@ bool Socket::Send(const char* buff, size_t size)
 	return true;
 }
 
+bool Socket::Send(const wchar_t* msg)
+{
+	if (send(_socket, (char*)msg, wcslen(msg) * 2, 0) == SOCKET_ERROR)
+	{
+		logger.format(WSAGetLastError());
+		return false;
+	}
+	return true;
+}
+
 bool Socket::Recv(char* buff, size_t size)
 {
-	int bytesRecieved = recv(_socket, buff, size * sizeof(WCHAR), 0);
+	int bytesRecieved = recv(_socket, buff, size, 0);
 	if (bytesRecieved == SOCKET_ERROR)
 	{
 		logger.format(WSAGetLastError());
@@ -49,9 +59,18 @@ bool Socket::Recv(char* buff, size_t size)
 	return true;
 }
 
-bool Socket::Recv(char* buff)
+bool Socket::Recv(std::wstring& str)
 {
-	return Recv(buff, RECV_BUFFER);
+	wchar_t buff[RECV_BUFFER / 2];
+	int bytesRecieved = recv(_socket, (char*)buff, RECV_BUFFER, 0);
+	if (bytesRecieved == SOCKET_ERROR)
+	{
+		logger.format(WSAGetLastError());
+		return false;
+	}
+	buff[bytesRecieved] = 0;
+	str = buff;
+	return true;
 }
 
 bool Socket::Bind(const char* ip, u_short port)
