@@ -10,11 +10,14 @@ class Socket
 	static const int RECV_BUFFER = 1024;
 	SOCKET _socket;
 public:
-	Socket();
+	Socket() = default;
+	Socket(SOCKET sock);
 	~Socket();
 	Socket(Socket&& obj);
 	bool Send(const char* buff, size_t size);
 	bool Recv(char* buff, size_t size);
-	bool Host(const char* ip, int port);
+	bool Bind(const char* ip, int port);
+	bool Accept();
+	Socket MakeAccept();
 	bool Connect(const char* ip, int port);
 };

@@ -11,6 +11,11 @@ Socket::Socket()
 	}
 }
 
+Socket::Socket(SOCKET sock)
+{
+	_socket = sock;
+}
+
 Socket::~Socket()
 {
 	closesocket(_socket);
@@ -44,7 +49,7 @@ bool Socket::Recv(char* buff, size_t size)
 	return true;
 }
 
-bool Socket::Host(const char* ip, int port)
+bool Socket::Bind(const char* ip, int port)
 {
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
@@ -56,12 +61,25 @@ bool Socket::Host(const char* ip, int port)
 		log.format(WSAGetLastError());
 		return false;
 	}
+	return true;
+}
+
+bool Socket::Accept()
+{
 	SOCKET acceptSocket = accept(_socket, NULL, NULL);
 	while (acceptSocket == SOCKET_ERROR)
 		acceptSocket = accept(_socket, NULL, NULL);
 	closesocket(_socket);
 	_socket = acceptSocket;
 	return true;
+}
+
+Socket Socket::MakeAccept()
+{
+	SOCKET acceptSocket = accept(_socket, NULL, NULL);
+	while (acceptSocket == SOCKET_ERROR)
+		acceptSocket = accept(_socket, NULL, NULL);
+	return Socket(acceptSocket);
 }
 
 bool Socket::Connect(const char* ip, int port)
