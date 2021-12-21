@@ -1,5 +1,12 @@
 #include "Logger.h"
 
+Logger logger;
+
+Logger::Logger()
+{
+	setlocale(0, "");
+}
+
 void Logger::format(int err_code)
 {
 	wchar_t* str;
@@ -17,5 +24,17 @@ void Logger::format(int err_code)
 Logger& Logger::operator<<(std::wstring str)
 {
 	std::wcout << str;
+	return *this;
+}
+
+Logger& Logger::operator<<(std::string str)
+{
+	std::cout << str;
+	return *this;
+}
+
+Logger& Logger::operator<<(const char* str)
+{
+	std::cout << str;
 	return *this;
 }

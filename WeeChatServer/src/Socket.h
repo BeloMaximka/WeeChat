@@ -7,15 +7,16 @@
 #include "Logger.h"
 class Socket
 {
-	static const int RECV_BUFFER = 1024;
 	SOCKET _socket;
 public:
-	Socket() = default;
+	static const int RECV_BUFFER = 1024;
+	Socket();
 	Socket(SOCKET sock);
 	~Socket();
 	Socket(Socket&& obj);
 	bool Send(const char* buff, size_t size);
 	bool Recv(char* buff, size_t size);
+	bool Recv(char* buff);
 	bool Bind(const char* ip, u_short port);
 	bool Accept();
 	Socket MakeAccept();

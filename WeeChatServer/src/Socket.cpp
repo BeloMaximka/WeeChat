@@ -5,7 +5,7 @@ Socket::Socket()
 	_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (_socket == INVALID_SOCKET)
 	{
-		log.format(WSAGetLastError());
+		logger.format(WSAGetLastError());
 		WSACleanup();
 		exit(11);
 	}
@@ -32,7 +32,7 @@ bool Socket::Send(const char* buff, size_t size)
 {
 	if (send(_socket, buff, size, 0) == SOCKET_ERROR)
 	{
-		log.format(WSAGetLastError());
+		logger.format(WSAGetLastError());
 		return false;
 	}
 	return true;
@@ -43,10 +43,15 @@ bool Socket::Recv(char* buff, size_t size)
 	int bytesRecieved = recv(_socket, buff, size * sizeof(WCHAR), 0);
 	if (bytesRecieved == SOCKET_ERROR)
 	{
-		log.format(WSAGetLastError());
+		logger.format(WSAGetLastError());
 		return false;
 	}
 	return true;
+}
+
+bool Socket::Recv(char* buff)
+{
+	return Recv(buff, RECV_BUFFER);
 }
 
 bool Socket::Bind(const char* ip, u_short port)
@@ -58,7 +63,7 @@ bool Socket::Bind(const char* ip, u_short port)
 	if (bind(_socket, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR ||
 		listen(_socket, 1) == SOCKET_ERROR)
 	{
-		log.format(WSAGetLastError());
+		logger.format(WSAGetLastError());
 		return false;
 	}
 	return true;
@@ -90,7 +95,7 @@ bool Socket::Connect(const char* ip, int port)
 	addr.sin_port = htons(port);
 	if (connect(_socket, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR)
 	{
-		log.format(WSAGetLastError());
+		logger.format(WSAGetLastError());
 		return false;
 	}
 	return true;
