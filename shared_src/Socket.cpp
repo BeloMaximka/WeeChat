@@ -66,7 +66,6 @@ bool Socket::Recv(std::wstring& str)
 	}
 	buff[bytesRecieved / 2] = 0;
 	str.assign(buff, bytesRecieved / 2);
-	//str = buff;
 	return true;
 }
 

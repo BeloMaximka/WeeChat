@@ -32,6 +32,7 @@ class ChatDlg
 
 	void Listen(std::thread firstConnection);
 	void Connect();
+	COLORREF ULongToCOLORREF(ULONG color);
 public:
 	ChatDlg();
 	~ChatDlg();
