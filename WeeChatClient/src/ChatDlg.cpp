@@ -8,7 +8,11 @@ ChatDlg::ChatDlg()
 	ptr = this;
 }
 
-ChatDlg::~ChatDlg(void) {}
+ChatDlg::~ChatDlg(void) 
+{
+	if (listenThread.joinable())
+		listenThread.detach();
+}
 
 void ChatDlg::Cls_OnClose(HWND hwnd)
 {
@@ -17,7 +21,13 @@ void ChatDlg::Cls_OnClose(HWND hwnd)
 
 BOOL ChatDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 {
+	LoginResult result{ false };
+	LoginDlg dlg(&result);
+	DialogBox(0, MAKEINTRESOURCE(IDD_DIALOG_LOGIN), NULL, LoginDlg::DlgProc);
+	if (!result.success) EndDialog(hwnd, 0);
 	hWnd = hwnd;
+
+	listenThread = std::thread(&ChatDlg::Listen, this, std::thread(&ChatDlg::Connect, this));
 	return TRUE;
 }
 
@@ -29,9 +39,25 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 	}
 }
 
-void ChatDlg::Connect(const char* ip, USHORT port)
+void ChatDlg::Listen(std::thread firstConnection)
 {
-	socket.Connect(ip, port);
+	if (firstConnection.joinable())
+		firstConnection.join();
+	std::wstring message;
+	while (true)
+	{
+		while (socket.Recv(message))
+			socket.Send(message.c_str());
+		Connect();
+	}
+}
+
+void ChatDlg::Connect()
+{
+	socket.CloseConnection();
+	SetDlgItemText(hWnd, IDC_TEXT_CONNECTION, L"Подключение к серверу...");
+	while (!socket.Connect(ip.c_str(), port));
+	SetDlgItemText(hWnd, IDC_TEXT_CONNECTION, L"Подключено.");
 }
 
 INT_PTR CALLBACK ChatDlg::DlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -18,7 +18,7 @@ Server::Server(const char* ip, unsigned short port)
 void Server::ListenConnetions()
 {
 	Socket base_socket;
-	std::wcout << "Hosting server by IP " << ip << " and port " << std::to_string(port) << "...\n";
+	std::wcout << "Hosting server by IP " << ip << " and port " << std::to_wstring(port) << "...\n";
 	base_socket.Bind(ip, port);
 	std::wcout << "Binded.\n";
 	while (threads_run)
@@ -47,7 +47,6 @@ void Server::ProcessConnection(Socket _socket)
 std::wstring Server::WSAerror_to_wstring(int code)
 {
 	WCHAR* str;
-	int code = WSAGetLastError();
 	WCHAR code_str[16];
 	_itow_s(code, code_str, 10);
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,

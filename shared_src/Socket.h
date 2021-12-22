@@ -21,4 +21,5 @@ public:
 	bool Accept();
 	Socket MakeAccept();
 	bool Connect(const char* ip, u_short port);
+	bool CloseConnection();
 };

@@ -9,20 +9,27 @@
 
 #include <string>
 #include <thread>
-#include "FileStream.h"
 #include "..\..\shared_src\Socket.h"
+#include "LoginDlg.h"
 
 class ChatDlg
 {
 	HWND hWnd;
 	static ChatDlg* ptr;
+	std::string ip = "192.168.0.177";
+	USHORT port = 545454;
+
+	std::thread listenThread;
 	Socket socket;
+	std::wstring name;
+	UINT color;
 
 	void Cls_OnClose(HWND hwnd);
 	BOOL Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam);
 	void Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
 
-	void Connect(const char* ip, USHORT port);
+	void Listen(std::thread firstConnection);
+	void Connect();
 public:
 	ChatDlg();
 	~ChatDlg();

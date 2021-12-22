@@ -108,7 +108,17 @@ bool Socket::Connect(const char* ip, u_short port)
 	addr.sin_port = htons(port);
 	if (connect(_socket, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR)
 	{
+		auto in = WSAGetLastError();
 		return false;
 	}
+	return true;
+}
+
+bool Socket::CloseConnection()
+{
+	closesocket(_socket);
+	_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (_socket == INVALID_SOCKET)
+		return false;
 	return true;
 }

@@ -28,7 +28,6 @@
     <ClInclude Include="..\shared_src\Socket.h" />
     <ClInclude Include="rsc\resource.h" />
     <ClInclude Include="src\ChatDlg.h" />
-    <ClInclude Include="src\FileStream.h" />
     <ClInclude Include="src\LoginDlg.h" />
   </ItemGroup>
   <ItemGroup>

@@ -41,9 +41,6 @@
     <ClInclude Include="..\shared_src\Socket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FileStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="rsc\WeeChatClient.rc">
