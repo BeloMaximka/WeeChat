@@ -1,8 +1,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include "LoginDlg.h"
+#include <commctrl.h>
+#pragma comment(lib,"comctl32")
 
-int WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPTSTR lpszCmdLine, int nCmdShow)
+int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPTSTR lpszCmdLine, int nCmdShow)
 {
-	LoginDlg dlg;
-	return DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), NULL, LoginDlg::DlgProc);
+	LoginResult result{ false };
+	LoginDlg dlg(&result);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG_LOGIN), NULL, LoginDlg::DlgProc);
+	return 0;
 }

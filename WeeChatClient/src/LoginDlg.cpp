@@ -3,23 +3,16 @@ using namespace std;
 
 LoginDlg* LoginDlg::ptr = NULL;
 
-LoginDlg::LoginDlg(void)
+LoginDlg::LoginDlg(LoginResult* result) : result(result)
 {
 	ptr = this;
-	WSADATA wsaData;
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != NO_ERROR)
-	{
-		ShowError();
-		WSACleanup();
-		exit(10);
-	}
 }
 
 LoginDlg::~LoginDlg(void) {}
 
-void LoginDlg::Cls_OnClose(HWND hwnd)
+void LoginDlg::Cls_OnClose(HWND hwnd) 
 {
-
+	EndDialog(hwnd, 0);
 }
 
 BOOL LoginDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
@@ -32,11 +25,26 @@ void LoginDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
 	switch (id)
 	{
+	case ID_BUTTON_OK:
+		WCHAR text[256];
+		GetDlgItemText(hwnd, IDC_EDIT_LOGIN, text, 256);
+		if (!wcslen(text))
+		{
+			MessageBox(NULL, L"¬ведите логин.", L"ќшибка", MB_OK | MB_ICONERROR);
+			return;
+		}
+		result->name = text;
+		result->color = 532;
+		result->success = true;
+		EndDialog(hwnd, 0);
+		break;
+	case IDC_BUTTON_CANCEL:
+		EndDialog(hwnd, 0);
 		break;
 	}
 }
 
-BOOL CALLBACK LoginDlg::DlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK LoginDlg::DlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
