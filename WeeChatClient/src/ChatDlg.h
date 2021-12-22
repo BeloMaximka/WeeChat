@@ -9,27 +9,21 @@
 
 #include <string>
 #include <thread>
+#include "..\..\shared_src\Socket.h"
 
-
-struct LoginResult
+class ChatDlg
 {
-	bool success;
-	std::wstring name;
-	ULONG color;
-};
-class LoginDlg
-{
-	static LoginDlg* ptr;
-	LoginResult* result;
 	HWND hWnd;
-	
+	static ChatDlg* ptr;
+	Socket socket;
+
 	void Cls_OnClose(HWND hwnd);
 	BOOL Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam);
 	void Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
+
+	void Connect(const char* ip, USHORT port);
 public:
-	LoginDlg() = delete;
-	LoginDlg(LoginResult* result);
-	~LoginDlg();
-	
+	ChatDlg();
+	~ChatDlg();
 	static INT_PTR CALLBACK DlgProc(HWND hWnd, UINT mes, WPARAM wp, LPARAM lp);
 };

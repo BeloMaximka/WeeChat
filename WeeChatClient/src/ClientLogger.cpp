@@ -1,4 +1,4 @@
-#include "Logger.h"
+#include "ClientLogger.h"
 
 Logger logger;
 
@@ -17,24 +17,32 @@ void Logger::format(int err_code)
 		NULL, WSAGetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPWSTR)&str, 0, NULL);
-	std::wcout << "ERROR: " << str << std::endl;
+	std::wfstream file("log.txt", std::fstream::app);
+	file << "ERROR: " << str << std::endl;
+	file.close();
 	LocalFree(str);
 }
 
 Logger& Logger::operator<<(std::wstring str)
 {
-	std::wcout << str;
+	std::wfstream file("log.txt", std::fstream::app);
+	file << str;
+	file.close();
 	return *this;
 }
 
 Logger& Logger::operator<<(std::string str)
 {
-	std::cout << str;
+	std::wfstream file("log.txt", std::fstream::app);
+	file << str;
+	file.close();
 	return *this;
 }
 
 Logger& Logger::operator<<(const char* str)
 {
-	std::cout << str;
+	std::wfstream file("log.txt", std::fstream::app);
+	file << str;
+	file.close();
 	return *this;
 }

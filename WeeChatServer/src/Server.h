@@ -1,5 +1,5 @@
 #pragma once
-#include "Socket.h"
+#include "..\..\shared_src\Socket.h"
 #include <cstring>
 #include <map>
 #include <thread>

@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="..\shared_src\Socket.cpp" />
+    <ClCompile Include="src\ServerLogger.cpp" />
     <ClCompile Include="src\ServerMain.cpp" />
     <ClCompile Include="src\Server.cpp" />
-    <ClCompile Include="src\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Logger.h" />
+    <ClInclude Include="..\shared_src\Socket.h" />
+    <ClInclude Include="src\ServerLogger.h" />
     <ClInclude Include="src\Server.h" />
-    <ClInclude Include="src\Socket.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

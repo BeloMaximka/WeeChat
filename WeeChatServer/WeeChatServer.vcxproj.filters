@@ -15,27 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Logger.cpp">
+    <ClCompile Include="src\ServerLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ServerMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Socket.cpp">
+    <ClCompile Include="src\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Server.cpp">
+    <ClCompile Include="..\shared_src\Socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Socket.h">
+    <ClInclude Include="src\ServerLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared_src\Socket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

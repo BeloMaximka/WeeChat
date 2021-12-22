@@ -21,5 +21,5 @@ public:
 	bool Bind(const char* ip, u_short port);
 	bool Accept();
 	Socket MakeAccept();
-	bool Connect(const char* ip, int port);
+	bool Connect(const char* ip, u_short port);
 };

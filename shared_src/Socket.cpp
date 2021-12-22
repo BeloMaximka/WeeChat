@@ -106,7 +106,7 @@ Socket Socket::MakeAccept()
 	return Socket(acceptSocket);
 }
 
-bool Socket::Connect(const char* ip, int port)
+bool Socket::Connect(const char* ip, u_short port)
 {
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
