@@ -4,6 +4,8 @@
 #include <map>
 #include <thread>
 #include <mutex>
+#include <iostream>
+
 class Server
 {
 	char ip[16];
@@ -14,6 +16,7 @@ class Server
 	std::thread listen;
 	void ListenConnetions();
 	void ProcessConnection(Socket _socket);
+	std::wstring WSAerror_to_wstring(int code);
 public:
 	~Server();
 	Server() = delete;

@@ -27,9 +27,6 @@
     <ClCompile Include="..\shared_src\Socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ClientLogger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LoginDlg.h">
@@ -44,7 +41,7 @@
     <ClInclude Include="..\shared_src\Socket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ClientLogger.h">
+    <ClInclude Include="src\FileStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

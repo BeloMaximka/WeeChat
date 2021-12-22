@@ -9,6 +9,7 @@
 
 #include <string>
 #include <thread>
+#include "FileStream.h"
 #include "..\..\shared_src\Socket.h"
 
 class ChatDlg

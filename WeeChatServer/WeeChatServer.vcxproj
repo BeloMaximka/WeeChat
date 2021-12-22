@@ -20,13 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\shared_src\Socket.cpp" />
-    <ClCompile Include="src\ServerLogger.cpp" />
     <ClCompile Include="src\ServerMain.cpp" />
     <ClCompile Include="src\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\shared_src\Socket.h" />
-    <ClInclude Include="src\ServerLogger.h" />
     <ClInclude Include="src\Server.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

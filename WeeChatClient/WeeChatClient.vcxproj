@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="..\shared_src\Socket.cpp" />
     <ClCompile Include="src\ChatDlg.cpp" />
-    <ClCompile Include="src\ClientLogger.cpp" />
     <ClCompile Include="src\LoginDlg.cpp" />
     <ClCompile Include="src\ClientMain.cpp" />
   </ItemGroup>
@@ -29,7 +28,7 @@
     <ClInclude Include="..\shared_src\Socket.h" />
     <ClInclude Include="rsc\resource.h" />
     <ClInclude Include="src\ChatDlg.h" />
-    <ClInclude Include="src\ClientLogger.h" />
+    <ClInclude Include="src\FileStream.h" />
     <ClInclude Include="src\LoginDlg.h" />
   </ItemGroup>
   <ItemGroup>

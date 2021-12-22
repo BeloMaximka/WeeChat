@@ -5,7 +5,7 @@ Server::Server(const char* ip, unsigned short port)
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != NO_ERROR)
 	{
-		logger.format(WSAGetLastError());
+		std::wcout << "ERROR: " << WSAerror_to_wstring(WSAGetLastError()) << std::endl;
 		WSACleanup();
 		exit(10);
 	}
@@ -18,13 +18,13 @@ Server::Server(const char* ip, unsigned short port)
 void Server::ListenConnetions()
 {
 	Socket base_socket;
-	logger << "Hosting server by IP " << ip << " and port " << std::to_string(port) << "...\n";
+	std::wcout << "Hosting server by IP " << ip << " and port " << std::to_string(port) << "...\n";
 	base_socket.Bind(ip, port);
-	logger << "Binded.\n";
+	std::wcout << "Binded.\n";
 	while (threads_run)
 	{
 		Socket accepted = base_socket.MakeAccept();
-		logger << "Got connection.\n";
+		std::wcout << "Got connection.\n";
 		std::thread connection(&Server::ProcessConnection, this, std::move(accepted));
 		connections[connection.get_id()] = std::move(connection);
 	}
@@ -42,6 +42,21 @@ void Server::ProcessConnection(Socket _socket)
 	connections[id].detach();
 	connections.erase(id);
 	map_mutex.unlock();
+}
+
+std::wstring Server::WSAerror_to_wstring(int code)
+{
+	WCHAR* str;
+	int code = WSAGetLastError();
+	WCHAR code_str[16];
+	_itow_s(code, code_str, 10);
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL, WSAGetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(WCHAR*)&str, 0, NULL);
+	std::wstring result(str);
+	LocalFree(str);
+	return result;
 }
 
 Server::~Server()
