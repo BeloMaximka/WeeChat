@@ -9,6 +9,7 @@
 
 #include <string>
 #include <thread>
+#include <commctrl.h>
 
 
 struct LoginResult
@@ -22,10 +23,12 @@ class LoginDlg
 	static LoginDlg* ptr;
 	LoginResult* result;
 	HWND hWnd;
+	BYTE rgb[3];
 	
 	void Cls_OnClose(HWND hwnd);
 	BOOL Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam);
 	void Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
+	void Cls_OnHScroll(HWND hwnd, HWND hwndCtl, UINT code, int pos);
 public:
 	LoginDlg() = delete;
 	LoginDlg(LoginResult* result);
