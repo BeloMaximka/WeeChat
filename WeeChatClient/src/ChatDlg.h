@@ -9,8 +9,10 @@
 
 #include <string>
 #include <thread>
+#include <Richedit.h>
 #include "..\..\shared_src\Socket.h"
 #include "LoginDlg.h"
+#include <sstream>
 
 class ChatDlg
 {
@@ -22,7 +24,7 @@ class ChatDlg
 	std::thread listenThread;
 	Socket socket;
 	std::wstring name;
-	UINT color;
+	ULONG color;
 
 	void Cls_OnClose(HWND hwnd);
 	BOOL Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam);

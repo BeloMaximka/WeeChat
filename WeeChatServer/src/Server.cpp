@@ -35,7 +35,7 @@ void Server::ProcessConnection(Socket _socket)
 	std::wstring message;
 	while (threads_run && _socket.Recv(message))
 	{
-		_socket.Send(message.c_str());
+		_socket.Send(message.c_str(), message.size());
 	}
 	map_mutex.lock();
 	auto id = std::this_thread::get_id();

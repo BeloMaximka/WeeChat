@@ -36,9 +36,10 @@ bool Socket::Send(const char* buff, size_t size)
 	return true;
 }
 
-bool Socket::Send(const wchar_t* msg)
+bool Socket::Send(const wchar_t* msg, int size)
 {
-	if (send(_socket, (char*)msg, wcslen(msg) * 2, 0) == SOCKET_ERROR)
+	if (size < 0) size = wcslen(msg);
+	if (send(_socket, (char*)msg, size * 2, 0) == SOCKET_ERROR)
 	{
 		return false;
 	}
@@ -63,8 +64,9 @@ bool Socket::Recv(std::wstring& str)
 	{
 		return false;
 	}
-	buff[bytesRecieved] = 0;
-	str = buff;
+	buff[bytesRecieved / 2] = 0;
+	str.assign(buff, bytesRecieved / 2);
+	//str = buff;
 	return true;
 }
 

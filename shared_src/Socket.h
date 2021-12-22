@@ -14,7 +14,7 @@ public:
 	~Socket();
 	Socket(Socket&& obj);
 	bool Send(const char* buff, size_t size);
-	bool Send(const wchar_t* msg);
+	bool Send(const wchar_t* msg, int size = -1);
 	bool Recv(char* buff, size_t size);
 	bool Recv(std::wstring& str);
 	bool Bind(const char* ip, u_short port);

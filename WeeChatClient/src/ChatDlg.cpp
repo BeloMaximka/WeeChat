@@ -25,6 +25,8 @@ BOOL ChatDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 	LoginDlg dlg(&result);
 	DialogBox(0, MAKEINTRESOURCE(IDD_DIALOG_LOGIN), NULL, LoginDlg::DlgProc);
 	if (!result.success) EndDialog(hwnd, 0);
+	name = result.name;
+	color = result.color;
 	hWnd = hwnd;
 
 	listenThread = std::thread(&ChatDlg::Listen, this, std::thread(&ChatDlg::Connect, this));
@@ -35,7 +37,14 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
 	switch (id)
 	{
-
+	case IDC_BUTTON_SEND:
+		std::wstringstream msg;
+		msg << (wchar_t)color << (wchar_t)*((wchar_t*)&color + 1);
+		WCHAR text[1024];
+		GetDlgItemText(hwnd, IDC_INPUTBOX, text, 1024);
+		msg << name << L": " << text << L"\n";
+		socket.Send(msg.str().c_str(), msg.str().size());
+		break;
 	}
 }
 
@@ -47,7 +56,11 @@ void ChatDlg::Listen(std::thread firstConnection)
 	while (true)
 	{
 		while (socket.Recv(message))
-			socket.Send(message.c_str());
+		{
+			CHARRANGE cr{ -1,-1 };
+			SendDlgItemMessage(hWnd,IDC_CHATBOX, EM_EXSETSEL, 0, (LPARAM)&cr);
+			SendDlgItemMessage(hWnd,IDC_CHATBOX, EM_REPLACESEL, 0, LPARAM(message.substr(2).c_str()));
+		}
 		Connect();
 	}
 }
