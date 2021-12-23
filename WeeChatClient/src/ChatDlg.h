@@ -19,7 +19,7 @@ class ChatDlg
 	HWND hWnd;
 	static ChatDlg* ptr;
 	char ip[16];
-	USHORT port = 545454;
+	USHORT port = 5454;
 
 	std::thread listenThread;
 	Socket socket;

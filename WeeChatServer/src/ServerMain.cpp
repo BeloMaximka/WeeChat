@@ -10,7 +10,7 @@ int main()
         exit(10);
     }
 
-    Server serv("0.0.0.0", 545454);
+    Server serv("0.0.0.0", 5454);
 	system("pause > NUL");
 	return 0;
 }
