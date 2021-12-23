@@ -38,12 +38,14 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 	switch (id)
 	{
 	case IDC_BUTTON_SEND:
-		std::wstringstream msg;
-		//msg.str().assign((wchar_t*)&color, 2);
-		msg << (wchar_t)*((wchar_t*)&color) << (wchar_t)*((wchar_t*)&color + 1);
 		WCHAR text[1024];
 		GetDlgItemText(hwnd, IDC_INPUTBOX, text, 1024);
 		if (!*text) return; // if first wchar == 0
+		std::wstringstream msg;
+		
+		USHORT size = wcslen(text) + name.size() + 5;
+		msg << (wchar_t)*((wchar_t*)&size);
+		msg << (wchar_t)*((wchar_t*)&color) << (wchar_t)*((wchar_t*)&color + 1);
 		msg << name << L": " << text << L"\n";
 		socket.Send(msg.str().c_str(), msg.str().size());
 		break;
@@ -54,23 +56,30 @@ void ChatDlg::Listen(std::thread firstConnection)
 {
 	if (firstConnection.joinable())
 		firstConnection.join();
+	socket.Send(L"GET_HISTORY");
 	std::wstring message;
 	while (true)
 	{
 		while (socket.Recv(message))
 		{
-			ULONG color = *(ULONG*)message.c_str();
-			CHARRANGE cr{ -1,-1 };
-			SendDlgItemMessage(hWnd,IDC_CHATBOX, EM_EXSETSEL, 0, LPARAM(&cr));
-			// coloring
-			CHARFORMAT cf;
-			cf.cbSize = sizeof(cf);
-			cf.dwMask = CFM_COLOR;
-			cf.crTextColor = color;
-			cf.dwEffects = 0;
-			SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_SETCHARFORMAT, WPARAM(SCF_SELECTION), (LPARAM)&cf);
-			// appending
-			SendDlgItemMessage(hWnd,IDC_CHATBOX, EM_REPLACESEL, 0, LPARAM(message.substr(2).c_str()));
+			while (message.size())
+			{
+				USHORT size = message[0];
+				std::wstring sub = message.substr(1, size);
+				ULONG color = *(ULONG*)sub.c_str();
+				CHARRANGE cr{ -1,-1 };
+				SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_EXSETSEL, 0, LPARAM(&cr));
+				// coloring
+				CHARFORMAT cf;
+				cf.cbSize = sizeof(cf);
+				cf.dwMask = CFM_COLOR;
+				cf.crTextColor = color;
+				cf.dwEffects = 0;
+				SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_SETCHARFORMAT, WPARAM(SCF_SELECTION), (LPARAM)&cf);
+				// appending
+				SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_REPLACESEL, 0, LPARAM(sub.substr(2).c_str()));
+				message = message.substr(size + 1);
+			}
 		}
 		Connect();
 	}

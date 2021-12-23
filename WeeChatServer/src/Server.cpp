@@ -37,6 +37,13 @@ void Server::ProcessConnection(Socket _socket)
 	std::wstring message;
 	while (threads_run && _socket.Recv(message))
 	{
+		if (message.substr(0, 11) == L"GET_HISTORY")
+		{
+			for (auto& elem : chatHistory)
+				_socket.Send(elem.c_str(), elem.size());
+			continue;
+		}
+		chatHistory.push_back(message);
 		map_mutex.lock();
 		for (auto& elem : connections)
 			elem.second.second->Send(message.c_str(), message.size());
