@@ -33,6 +33,9 @@
   <ItemGroup>
     <ResourceCompile Include="rsc\WeeChatClient.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="rsc\ico.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

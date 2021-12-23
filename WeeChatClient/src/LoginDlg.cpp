@@ -17,6 +17,10 @@ void LoginDlg::Cls_OnClose(HWND hwnd)
 
 BOOL LoginDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 {
+	HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+	SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+	SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+
 	hWnd = hwnd;
 	srand(time(0));
 	for (int i = 0; i < 3; i++)
