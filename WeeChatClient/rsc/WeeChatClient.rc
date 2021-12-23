@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -73,14 +73,14 @@ BEGIN
 END
 
 IDD_DIALOG_CHAT DIALOGEX 0, 0, 327, 247
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "WeeChat"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Отправить",IDC_BUTTON_SEND,6,228,60,18
-    CONTROL         "",IDC_CHATBOX,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x844,6,6,318,168
-    CONTROL         "",IDC_INPUTBOX,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x44,6,180,318,42
+    CONTROL         "",IDC_CHATBOX,"RichEdit20W",ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_BORDER | WS_VSCROLL | WS_TABSTOP,6,6,318,168
+    CONTROL         "",IDC_INPUTBOX,"RichEdit20W",ES_MULTILINE | ES_AUTOVSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP,6,180,318,42
     LTEXT           "Подключение к серверу...",IDC_TEXT_CONNECTION,78,234,92,8
 END
 
@@ -127,7 +127,7 @@ BEGIN
     0
 END
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

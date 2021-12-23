@@ -41,6 +41,7 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 		WCHAR text[1024];
 		GetDlgItemText(hwnd, IDC_INPUTBOX, text, 1024);
 		if (*text) socket.Send(text);
+		SetDlgItemText(hwnd, IDC_INPUTBOX, L" ");
 		break;
 	}
 }
@@ -80,6 +81,9 @@ void ChatDlg::Listen(std::thread firstConnection)
 				SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_REPLACESEL, 0, LPARAM(sub.substr(2).c_str()));
 				message = message.substr(size + 1);
 			}
+			//int line = SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_SETSCROLLPOS, WPARAM(-1), 0);
+			//EM_LINESCROLL 
+			//SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_LINESCROLL, 0, LPARAM(line));
 		}
 		Connect();
 	}

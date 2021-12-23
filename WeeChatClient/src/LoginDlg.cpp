@@ -21,7 +21,7 @@ BOOL LoginDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 	srand(time(0));
 	for (int i = 0; i < 3; i++)
 	{
-		SendDlgItemMessage(hwnd, IDC_SLIDER1 + i, TBM_SETRANGE, TRUE, MAKELPARAM(0, 255));
+		SendDlgItemMessage(hwnd, IDC_SLIDER1 + i, TBM_SETRANGE, TRUE, MAKELPARAM(0, 128));
 		rgb[i] = rand() % 256;
 		SendDlgItemMessage(hwnd, IDC_SLIDER1 + i, TBM_SETPOS, WPARAM(TRUE), LPARAM(rgb[i]));
 	}
