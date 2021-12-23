@@ -40,14 +40,7 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 	case IDC_BUTTON_SEND:
 		WCHAR text[1024];
 		GetDlgItemText(hwnd, IDC_INPUTBOX, text, 1024);
-		if (!*text) return; // if first wchar == 0
-		std::wstringstream msg;
-		
-		USHORT size = wcslen(text) + name.size() + 5;
-		msg << (wchar_t)*((wchar_t*)&size);
-		msg << (wchar_t)*((wchar_t*)&color) << (wchar_t)*((wchar_t*)&color + 1);
-		msg << name << L": " << text << L"\n";
-		socket.Send(msg.str().c_str(), msg.str().size());
+		if (*text) socket.Send(text);
 		break;
 	}
 }

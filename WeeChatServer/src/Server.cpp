@@ -45,16 +45,12 @@ void Server::ProcessConnection(Socket _socket)
 			infoClient.name = message.substr(2);
 			for (auto& elem : chatHistory)
 				_socket.Send(elem.c_str(), elem.size());
-			SendServerMessageFormatted(infoClient, L"%n has connected.");
+			SendServerMessageFormatted(infoClient, L"%n присоединился.");
 			continue;
 		}
-		chatHistory.push_back(message);
-		map_mutex.lock();
-		for (auto& elem : connections)
-			elem.second.first.socket->Send(message.c_str(), message.size());
-		map_mutex.unlock();
+		SendFormatted(infoClient, message);
 	}
-	SendServerMessageFormatted(infoClient, L"%n has disconnected.");
+	SendServerMessageFormatted(infoClient, L"%n отсоединился.");
 	map_mutex.lock();
 	connections[id].first.connection.detach();
 	connections.erase(id);
@@ -81,8 +77,9 @@ void Server::SendFormatted(ClientInfo info, std::wstring message)
 	USHORT size = message.size() + info.name.size() + 5;
 	msg << (wchar_t)*((wchar_t*)&size);
 	msg << (wchar_t)*((wchar_t*)&info.color) << (wchar_t)*((wchar_t*)&info.color + 1);
-	msg << info.name << L": " << message << L"\n";
+	msg << info.name << L": " << message<< L"\n";
 	map_mutex.lock();
+	chatHistory.push_back(msg.str());
 	for (auto& elem : connections)
 		elem.second.first.socket->Send(msg.str().c_str(), msg.str().size());
 	map_mutex.unlock();
@@ -92,7 +89,7 @@ void Server::SendServerMessageFormatted(ClientInfo info, std::wstring message)
 {
 	std::wstringstream msg;
 	auto found = message.find(L"%n");
-	message.replace(found, found + 1, info.name);
+	message.replace(found, found + 2, info.name);
 	USHORT size = message.size() + 3;
 	msg << (wchar_t)*((wchar_t*)&size);
 	msg << wchar_t(0) << wchar_t(0);
