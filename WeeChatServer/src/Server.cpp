@@ -26,20 +26,24 @@ void Server::ListenConnetions()
 		Socket accepted = base_socket.MakeAccept();
 		std::wcout << "Got connection.\n";
 		std::thread connection(&Server::ProcessConnection, this, std::move(accepted));
-		connections[connection.get_id()] = std::move(connection);
+		connections[connection.get_id()].first = std::move(connection);
 	}
 }
 
 void Server::ProcessConnection(Socket _socket)
 {
+	auto id = std::this_thread::get_id();
+	connections[id].second = &_socket;
 	std::wstring message;
 	while (threads_run && _socket.Recv(message))
 	{
-		_socket.Send(message.c_str(), message.size());
+		map_mutex.lock();
+		for (auto& elem : connections)
+			elem.second.second->Send(message.c_str(), message.size());
+		map_mutex.unlock();
 	}
 	map_mutex.lock();
-	auto id = std::this_thread::get_id();
-	connections[id].detach();
+	connections[id].first.detach();
 	connections.erase(id);
 	map_mutex.unlock();
 }

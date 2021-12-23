@@ -12,7 +12,7 @@ class Server
 	unsigned short port;
 	std::mutex map_mutex;
 	bool threads_run = true;
-	std::map<std::thread::id, std::thread> connections;
+	std::map <std::thread::id, std::pair<std::thread, Socket*>> connections;
 	std::thread listen;
 	void ListenConnetions();
 	void ProcessConnection(Socket _socket);
