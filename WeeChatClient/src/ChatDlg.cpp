@@ -56,7 +56,14 @@ void ChatDlg::Listen(std::thread firstConnection)
 {
 	if (firstConnection.joinable())
 		firstConnection.join();
-	socket.Send(L"GET_HISTORY");
+	
+	std::wstringstream msg;
+	msg << L"SET_DATA";
+	msg << (wchar_t)*((wchar_t*)&color) << (wchar_t)*((wchar_t*)&color + 1);
+	msg << name;
+	socket.Send(msg.str().c_str(), msg.str().size());
+	msg.clear();
+
 	std::wstring message;
 	while (true)
 	{
