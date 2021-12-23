@@ -2,14 +2,6 @@
 
 Server::Server(const char* ip, unsigned short port)
 {
-	WSADATA wsaData;
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != NO_ERROR)
-	{
-		std::wcout << "ERROR: " << WSAerror_to_wstring(WSAGetLastError()) << std::endl;
-		WSACleanup();
-		exit(10);
-	}
-
 	strcpy_s(this->ip, ip);
 	this->port = port;
 	listen = std::thread(&Server::ListenConnetions, this);
@@ -121,4 +113,5 @@ Server::~Server()
 	threads_run = false;
 	//listen.detach();
 	//while (connections.size());
+	WSACleanup();
 }
