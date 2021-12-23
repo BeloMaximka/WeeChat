@@ -25,6 +25,7 @@
 #define IDC_TEXT_R                      1021
 #define IDC_TEXT_G                      1022
 #define IDC_TEXT_B                      1023
+#define IDC_TEXT_NICKNAME               1024
 
 // Next default values for new objects
 // 
@@ -32,7 +33,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1024
+#define _APS_NEXT_CONTROL_VALUE         1025
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
