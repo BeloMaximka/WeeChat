@@ -10,12 +10,15 @@
 #include <string>
 #include <thread>
 #include <commctrl.h>
+#include <fstream>
+#include <codecvt>
 
 
 struct LoginResult
 {
 	bool success;
 	std::wstring name;
+	std::wstring ip;
 	ULONG color;
 };
 class LoginDlg

@@ -10,6 +10,7 @@
 #define IDC_TEXT_LOGIN                  1002
 #define IDC_TEXT_PASSWORD               1003
 #define IDC_EDIT_PASSWORD               1004
+#define IDC_EDIT_IP                     1004
 #define IDC_COMBO_COLOR                 1006
 #define IDC_TEXT_COLOR                  1007
 #define ID_BUTTON_OK                    1008

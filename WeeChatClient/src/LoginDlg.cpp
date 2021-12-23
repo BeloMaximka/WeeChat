@@ -31,6 +31,18 @@ BOOL LoginDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 	}
 	result->color = RGB(rgb[0], rgb[1], rgb[2]);
 	SendDlgItemMessage(hwnd, IDC_COLOR, PBM_SETBKCOLOR, 0, LPARAM(result->color));
+
+	wifstream file("config.cfg");
+	file.imbue(locale(locale(), new codecvt_utf8<wchar_t, 0x10ffff, consume_header>{}));
+	wstring line;
+	if (file.is_open())
+	{
+		file >> line;
+		SetDlgItemText(hwnd, IDC_EDIT_LOGIN, line.c_str());
+		file >> line;
+		SetDlgItemText(hwnd, IDC_EDIT_IP, line.c_str());
+		file.close();
+	}
 	return TRUE;
 }
 
@@ -39,6 +51,7 @@ void LoginDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 	switch (id)
 	{
 	case ID_BUTTON_OK:
+	{
 		WCHAR text[256];
 		GetDlgItemText(hwnd, IDC_EDIT_LOGIN, text, 256);
 		if (!wcslen(text))
@@ -47,9 +60,24 @@ void LoginDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 			return;
 		}
 		result->name = text;
+		GetDlgItemText(hwnd, IDC_EDIT_IP, text, 256);
+		if (!wcslen(text))
+		{
+			MessageBox(NULL, L"¬ведите IP.", L"ќшибка", MB_OK | MB_ICONERROR);
+			return;
+		}
+		wofstream file("config.cfg");
+		file.imbue(locale(std::locale(), new codecvt_utf8<wchar_t, 0x10ffff, generate_header>{}));
+		result->ip = text;
+		if (file.is_open())
+		{
+			file << result->name << endl << result->ip;
+			file.close();
+		}
 		result->success = true;
 		EndDialog(hwnd, 0);
 		break;
+	}
 	case IDC_BUTTON_CANCEL:
 		EndDialog(hwnd, 0);
 		break;
