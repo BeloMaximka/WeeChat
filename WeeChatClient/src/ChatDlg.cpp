@@ -30,6 +30,7 @@ BOOL ChatDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 	DialogBox(0, MAKEINTRESOURCE(IDD_DIALOG_LOGIN), NULL, LoginDlg::DlgProc);
 	if (!result.success) EndDialog(hwnd, 0);
 	name = result.name;
+	WideCharToMultiByte(1251, 0, result.ip.c_str(), result.ip.size(), ip, 16, " ", FALSE);
 	SetDlgItemText(hwnd, IDC_TEXT_NICKNAME, (L"Имя: " + name).c_str());
 	color = result.color;
 	hWnd = hwnd;
@@ -97,7 +98,7 @@ void ChatDlg::Connect()
 {
 	socket.CloseConnection();
 	SetDlgItemText(hWnd, IDC_TEXT_CONNECTION, L"Статус: подключение к серверу...");
-	while (!socket.Connect(ip.c_str(), port));
+	while (!socket.Connect(ip, port));
 	SetDlgItemText(hWnd, IDC_TEXT_CONNECTION, L"Статус: подключено.");
 }
 
