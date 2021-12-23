@@ -73,11 +73,18 @@ std::wstring Server::WSAerror_to_wstring(int code)
 
 void Server::SendFormatted(ClientInfo info, std::wstring message)
 {
+	WCHAR time_str[16];
+	time_t rawtime = time(0);
+	tm time;
+	localtime_s(&time, &rawtime);
+	wcsftime(time_str, 16, L"[%H:%M:%S] ", &time);
+
 	std::wstringstream msg;
-	USHORT size = message.size() + info.name.size() + 5;
+	USHORT size = wcslen(time_str) + message.size() + info.name.size() + 5;
+
 	msg << (wchar_t)*((wchar_t*)&size);
 	msg << (wchar_t)*((wchar_t*)&info.color) << (wchar_t)*((wchar_t*)&info.color + 1);
-	msg << info.name << L": " << message<< L"\n";
+	msg << time_str << info.name << L": " << message<< L"\n";
 	map_mutex.lock();
 	chatHistory.push_back(msg.str());
 	for (auto& elem : connections)
@@ -87,13 +94,21 @@ void Server::SendFormatted(ClientInfo info, std::wstring message)
 
 void Server::SendServerMessageFormatted(ClientInfo info, std::wstring message)
 {
-	std::wstringstream msg;
+	WCHAR time_str[16];
+	time_t rawtime = time(0);
+	tm time;
+	localtime_s(&time, &rawtime);
+	wcsftime(time_str, 16, L"[%H:%M:%S] ", &time);
+
 	auto found = message.find(L"%n");
 	message.replace(found, found + 2, info.name);
-	USHORT size = message.size() + 3;
+
+	std::wstringstream msg;
+	USHORT size = message.size() + wcslen(time_str) + 3;
+
 	msg << (wchar_t)*((wchar_t*)&size);
 	msg << wchar_t(0) << wchar_t(0);
-	msg << message << L"\n";
+	msg << time_str << message << L"\n";
 	map_mutex.lock();
 	chatHistory.push_back(msg.str());
 	for (auto& elem : connections)

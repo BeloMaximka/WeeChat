@@ -22,7 +22,7 @@ BOOL LoginDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 	for (int i = 0; i < 3; i++)
 	{
 		SendDlgItemMessage(hwnd, IDC_SLIDER1 + i, TBM_SETRANGE, TRUE, MAKELPARAM(0, 128));
-		rgb[i] = rand() % 256;
+		rgb[i] = rand() % 128;
 		SendDlgItemMessage(hwnd, IDC_SLIDER1 + i, TBM_SETPOS, WPARAM(TRUE), LPARAM(rgb[i]));
 	}
 	result->color = RGB(rgb[0], rgb[1], rgb[2]);
