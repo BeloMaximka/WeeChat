@@ -13,7 +13,7 @@ void Server::ListenConnetions()
 	std::wcout << "Hosting server by IP " << ip << " and port " << std::to_wstring(port) << "...\n";
 	base_socket.Bind(ip, port);
 	std::wcout << "Binded.\n";
-	while (threads_run)
+	while (true)
 	{
 		Socket accepted = base_socket.MakeAccept();
 		std::wcout << "Got connection.\n";
@@ -28,7 +28,7 @@ void Server::ProcessConnection(Socket _socket)
 	ClientInfo& infoClient = connections[id].second;
 	connections[id].first.socket = &_socket;
 	std::wstring message;
-	while (threads_run && _socket.Recv(message))
+	while (_socket.Recv(message))
 	{
 		if (message.substr(0, 8) == L"SET_DATA")
 		{
@@ -110,8 +110,8 @@ void Server::SendServerMessageFormatted(ClientInfo info, std::wstring message)
 
 Server::~Server()
 {
-	threads_run = false;
-	//listen.detach();
-	//while (connections.size());
+	listen.detach();
+	for (auto& elem : connections)
+		elem.second.first.connection.detach();
 	WSACleanup();
 }

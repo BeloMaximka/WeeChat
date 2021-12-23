@@ -25,7 +25,6 @@ class Server
 	unsigned short port;
 
 	std::mutex map_mutex;
-	bool threads_run = true;
 	std::thread listen;
 
 	std::map <std::thread::id, std::pair<ConnectionInfo, ClientInfo>> connections;
