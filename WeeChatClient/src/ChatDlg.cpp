@@ -42,6 +42,7 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 		GetDlgItemText(hwnd, IDC_INPUTBOX, text, 1024);
 		if (*text) socket.Send(text);
 		SetDlgItemText(hwnd, IDC_INPUTBOX, L" ");
+		SetFocus(GetDlgItem(hwnd, IDC_INPUTBOX));
 		break;
 	}
 }
