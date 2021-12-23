@@ -39,7 +39,8 @@ void ChatDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 	{
 	case IDC_BUTTON_SEND:
 		std::wstringstream msg;
-		msg << (wchar_t)color << (wchar_t)*((wchar_t*)&color + 1);
+		//msg.str().assign((wchar_t*)&color, 2);
+		msg << (wchar_t)*((wchar_t*)&color) << (wchar_t)*((wchar_t*)&color + 1);
 		WCHAR text[1024];
 		GetDlgItemText(hwnd, IDC_INPUTBOX, text, 1024);
 		if (!*text) return; // if first wchar == 0

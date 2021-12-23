@@ -43,7 +43,6 @@ void LoginDlg::Cls_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 			return;
 		}
 		result->name = text;
-		result->color = 532;
 		result->success = true;
 		EndDialog(hwnd, 0);
 		break;
