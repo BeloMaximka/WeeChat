@@ -18,7 +18,7 @@ class ChatDlg
 {
 	HWND hWnd;
 	static ChatDlg* ptr;
-	std::string ip = "10.2.212.27";
+	std::string ip = "192.168.0.177";
 	USHORT port = 545454;
 
 	std::thread listenThread;

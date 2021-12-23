@@ -81,9 +81,7 @@ void ChatDlg::Listen(std::thread firstConnection)
 				SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_REPLACESEL, 0, LPARAM(sub.substr(2).c_str()));
 				message = message.substr(size + 1);
 			}
-			//int line = SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_SETSCROLLPOS, WPARAM(-1), 0);
-			//EM_LINESCROLL 
-			//SendDlgItemMessage(hWnd, IDC_CHATBOX, EM_LINESCROLL, 0, LPARAM(line));
+			SendDlgItemMessage(hWnd, IDC_CHATBOX, WM_VSCROLL, SB_BOTTOM, 0);
 		}
 		Connect();
 	}

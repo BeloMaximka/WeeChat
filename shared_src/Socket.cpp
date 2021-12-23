@@ -58,14 +58,16 @@ bool Socket::Recv(char* buff, size_t size)
 
 bool Socket::Recv(std::wstring& str)
 {
-	wchar_t buff[RECV_BUFFER / 2];
-	int bytesRecieved = recv(_socket, (char*)buff, RECV_BUFFER, 0);
-	if (bytesRecieved == SOCKET_ERROR)
+	str.clear();
+	while (true)
 	{
-		return false;
+		wchar_t buff[RECV_BUFFER / 2];
+		int bytesRecieved = recv(_socket, (char*)buff, RECV_BUFFER, 0);
+		if (bytesRecieved == SOCKET_ERROR)
+			return false;
+		str.append(buff, bytesRecieved / 2);
+		if (bytesRecieved != RECV_BUFFER) break;
 	}
-	buff[bytesRecieved / 2] = 0;
-	str.assign(buff, bytesRecieved / 2);
 	return true;
 }
 
