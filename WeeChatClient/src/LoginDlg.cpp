@@ -37,9 +37,9 @@ BOOL LoginDlg::Cls_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 	wstring line;
 	if (file.is_open())
 	{
-		file >> line;
+		getline(file, line);
 		SetDlgItemText(hwnd, IDC_EDIT_LOGIN, line.c_str());
-		file >> line;
+		getline(file, line);
 		SetDlgItemText(hwnd, IDC_EDIT_IP, line.c_str());
 		file.close();
 	}
